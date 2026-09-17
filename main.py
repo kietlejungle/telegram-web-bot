@@ -9,11 +9,19 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
 # --- CẤU HÌNH ---
-BOT_TOKEN = "8979997745:AAHf6BQoRPq3e69mBQNYT-flsQ4VLJBNrak"
+BOT_TOKEN = "DÁN_TOKEN_TỪ_BOTFATHER_VÀO_ĐÂY"
 RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:8000")
 
 # Tạo ứng dụng FastAPI
 app = FastAPI()
+
+# ----------------------------------------------------
+# ENDPOINT PING (Giữ cho Render luôn thức 24/7)
+# ----------------------------------------------------
+@app.get("/")
+@app.get("/ping")
+async def ping():
+    return {"status": "alive"}
 
 # Tạo thư mục lưu trữ web nếu chưa có
 os.makedirs("hosted_sites", exist_ok=True)
