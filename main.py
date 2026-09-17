@@ -33,7 +33,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
     file_name = doc.file_name.lower()
 
     if not (file_name.endswith('.html') or file_name.endswith('.zip')):
-        await update.message.reply_text("⚠️ Vui lòng gửi file `.html` hoặc `.zip`!")
+        await update.message.reply_text("⚠️ Vui lòng gửi file <code>.html</code> hoặc <code>.zip</code>!", parse_mode="HTML")
         return
 
     await update.message.reply_text("⏳ Đang tải file và khởi tạo trang web...")
@@ -59,11 +59,11 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
     web_url = f"{RENDER_EXTERNAL_URL}/sites/user_{user_id}/"
 
     msg = (
-        f"🚀 **Trang web của bạn đã Live 24/7!**\n\n"
-        f"🔗 **Link truy cập:** {web_url}\n\n"
+        f"🚀 <b>Trang web của bạn đã Live 24/7!</b>\n\n"
+        f"🔗 <b>Link truy cập:</b> {web_url}\n\n"
         f"👉 Bấm vào link trên để xem trực tiếp."
     )
-    await update.message.reply_text(msg, parse_mode="Markdown")
+    await update.message.reply_text(msg, parse_mode="HTML")
 
 # Khai báo sự kiện khởi chạy Bot cùng Web Server
 @app.on_event("startup")
