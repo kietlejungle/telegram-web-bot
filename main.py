@@ -9,7 +9,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
 # --- CẤU HÌNH ---
-BOT_TOKEN = "DÁN_TOKEN_TỪ_BOTFATHER_VÀO_ĐÂY"
+BOT_TOKEN = "8979997745:AAHf6BQoRPq3e69mBQNYT-flsQ4VLJBNrak"
 RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:8000")
 
 # Tạo ứng dụng FastAPI
