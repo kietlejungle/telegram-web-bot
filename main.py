@@ -6,7 +6,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from telegram import Update
-from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, filters, ContextTypes
 
 # --- CẤU HÌNH ---
 BOT_TOKEN = "8979997745:AAHf6BQoRPq3e69mBQNYT-flsQ4VLJBNrak"
@@ -26,6 +26,10 @@ async def ping():
 # Tạo thư mục lưu trữ web nếu chưa có
 os.makedirs("hosted_sites", exist_ok=True)
 app.mount("/sites", StaticFiles(directory="hosted_sites", html=True), name="sites")
+
+# Lệnh /ping hoặc /start trong Telegram để test nhanh trạng thái bot
+async def ping_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("🤖 Bot vẫn đang sống và hoạt động bình thường! 🚀")
 
 async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -69,7 +73,13 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @app.on_event("startup")
 async def startup_event():
     tg_app = ApplicationBuilder().token(BOT_TOKEN).build()
+    
+    # Đăng ký nhận lệnh /ping và /start
+    tg_app.add_handler(CommandHandler(["ping", "start"], ping_command))
+    
+    # Đăng ký nhận file document
     tg_app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
+    
     await tg_app.initialize()
     await tg_app.start()
     await tg_app.updater.start_polling()
